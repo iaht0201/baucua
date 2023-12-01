@@ -22,7 +22,7 @@ class _DemoPageState extends State<DemoPage> {
   void textToSpeech(String text) async {
     await flutterTts.setLanguage("vi");
     await flutterTts.setVolume(1);
-    await flutterTts.setSpeechRate(0.6);
+    await flutterTts.setSpeechRate(1);
     await flutterTts.speak(text);
   }
 
@@ -63,6 +63,25 @@ class _DemoPageState extends State<DemoPage> {
     //   shakeCountResetTime: 3000,
     //   shakeThresholdGravity: 2.7,
     // );
+  }
+
+  String handleNumberToImage(int num) {
+    switch (num) {
+      case 1:
+        return "assets/images/nai.png";
+      case 2:
+        return "assets/images/bau.png";
+      case 3:
+        return "assets/images/ga.png";
+      case 4:
+        return "assets/images/ca.png";
+      case 5:
+        return "assets/images/cua.png";
+      case 6:
+        return "assets/images/tom.png";
+      default:
+        return "";
+    }
   }
 
   String handleNumberToText(int num) {
@@ -128,20 +147,53 @@ class _DemoPageState extends State<DemoPage> {
     );
     return Scaffold(
       body: SafeArea(
-          child: Center(
-        child: Column(
-          children: [
-            GestureDetector(
-              child: Text("PLay"),
-              onTap: () async {
+          child: Container(
+        color: Colors.green,
+        child: Center(
+          child: Column(
+            children: [
+              GestureDetector(
+                child: Text("PLay"),
+                onTap: () async {
                   await _player.pause();
-                textToSpeech("Chúc mừng bạn ${handleText(num1, num2, num3)}");
-              },
-            ),
-            Center(
-              child: Text(":${num1} : ${num2} : ${num3}"),
-            ),
-          ],
+                  textToSpeech("Chúc mừng bạn ${handleText(num1, num2, num3)}");
+                },
+              ),
+              Stack(
+                children: [
+                  Container(
+                      width: 500,
+                      height: 500,
+                      decoration: BoxDecoration(
+                          // color: Colors.red,
+                          image: DecorationImage(
+                              image: AssetImage("assets/images/dia.png")))),
+                  Positioned(
+                      top: 40,
+                      bottom: 0,
+                      left: 130,
+                      child: Image.asset("${handleNumberToImage(num1)}",
+                          width: 70, height: 70)),
+                  Positioned(
+                      top: 0,
+                      bottom: 130,
+                      left: 200,
+                      child: Image.asset("${handleNumberToImage(num2)}",
+                          width: 70, height: 70)),
+                  Positioned(
+                      top: 30,
+                      bottom: 0,
+                      right: 130,
+                      child: Image.asset("${handleNumberToImage(num3)}",
+                          width: 70, height: 70))
+                ],
+              ),
+
+              // Center(
+              //   child: Text(":${num1} : ${num2} : ${num3}"),
+              // ),
+            ],
+          ),
         ),
       )),
     );
